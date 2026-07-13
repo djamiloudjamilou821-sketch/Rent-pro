@@ -1,0 +1,126 @@
+<%- include("partials/header") %>
+<%- include("partials/sidebar") %>
+
+
+<div class="content">
+
+
+<div class="topbar">
+
+<h2>
+Payment History
+</h2>
+
+</div>
+
+
+
+<div class="card p-4 mb-4">
+
+<h4>
+Total Collected
+</h4>
+
+<h2>
+<%= totalCollected %> CFA
+</h2>
+
+</div>
+
+
+
+<div class="card p-4">
+
+
+<table class="table">
+
+
+<thead>
+
+<tr>
+
+<th>
+Renter
+</th>
+
+<th>
+Phone
+</th>
+
+<th>
+Amount
+</th>
+
+<th>
+Date
+</th>
+
+</tr>
+
+</thead>
+
+
+
+<tbody>
+
+
+<% if(payments.length === 0){ %>
+
+<tr>
+
+<td colspan="4">
+
+No payments yet
+
+</td>
+
+</tr>
+
+<% } %>
+
+
+
+<% payments.forEach(payment=>{ %>
+
+
+<tr>
+
+<td>
+<%= payment.name %>
+</td>
+
+
+<td>
+<%= payment.phone || "-" %>
+</td>
+
+
+<td>
+<%= payment.amount %> CFA
+</td>
+
+
+<td>
+<%= payment.payment_date %>
+</td>
+
+
+</tr>
+
+
+<% }) %>
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
+
+<%- include("partials/footer") %>

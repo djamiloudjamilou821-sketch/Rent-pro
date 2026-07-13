@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Edit Renter</title>
+
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<h2>Edit Renter</h2>
+
+<form
+method="POST"
+action="/renters/edit/<%= renter.id %>">
+
+<div class="mb-3">
+
+<label>Name</label>
+
+<input
+class="form-control"
+name="name"
+value="<%= renter.name %>"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label>Phone</label>
+
+<input
+class="form-control"
+name="phone"
+value="<%= renter.phone %>">
+
+</div>
+
+<div class="mb-3">
+
+<label>Address</label>
+
+<input
+class="form-control"
+name="address"
+value="<%= renter.address %>">
+
+</div>
+
+<button
+class="btn btn-success">
+
+Save Changes
+
+</button>
+
+<a
+href="/renters/<%= renter.id %>"
+class="btn btn-secondary">
+
+Cancel
+
+</a>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

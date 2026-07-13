@@ -1,0 +1,174 @@
+<%- include("partials/header") %>
+<%- include("partials/sidebar") %>
+
+<div class="content">
+
+<div class="topbar">
+
+<h2>Renter Profile</h2>
+
+</div>
+
+<div class="card p-4">
+
+<h3><%= renter.name %></h3>
+
+<hr>
+
+<p>
+
+<strong>Phone:</strong>
+
+<%= renter.phone || "-" %>
+
+</p>
+
+<p>
+
+<strong>Address:</strong>
+
+<%= renter.address || "-" %>
+
+</p>
+
+<p>
+
+<strong>Start Date:</strong>
+
+<%= renter.start_date %>
+
+</p>
+
+<hr>
+
+<h4>Status</h4>
+
+<h5>
+
+<%= status %>
+
+</h5>
+
+<p>
+
+<%= message %>
+
+</p>
+
+<hr>
+
+<h4>Debt</h4>
+
+<h3>
+
+<%= debt %> CFA
+
+</h3>
+
+<hr>
+
+<h4>Total Paid</h4>
+
+<h3>
+
+<%= totalPaid %> CFA
+
+</h3>
+
+</div>
+
+<br>
+
+<div class="card p-4">
+
+<h3>
+
+Payment History
+
+</h3>
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>Date</th>
+
+<th>Amount</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<% if(payments.length===0){ %>
+
+<tr>
+
+<td colspan="2">
+
+No payment yet.
+
+</td>
+
+</tr>
+
+<% } %>
+
+<% payments.forEach(payment=>{ %>
+
+<tr>
+
+<td>
+
+<%= payment.payment_date %>
+
+</td>
+
+<td>
+
+<%= payment.amount %> CFA
+
+</td>
+
+</tr>
+
+<% }) %>
+
+</tbody>
+
+</table>
+
+</div>
+
+<br>
+
+<a
+class="btn btn-success"
+href="/payments/<%= renter.id %>">
+
+Pay Rent
+
+</a>
+
+<a
+class="btn btn-warning"
+href="/renters/edit/<%= renter.id %>">
+
+Edit
+
+</a>
+
+<a
+class="btn btn-danger"
+href="/renters/delete/<%= renter.id %>">
+
+Delete
+
+</a>
+
+</div>
+
+<%- include("partials/footer") %>

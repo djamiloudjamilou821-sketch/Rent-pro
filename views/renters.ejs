@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Renters</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2>👥 Renters</h2>
+
+        <a href="/renters/add" class="btn btn-primary">
+            + Add Renter
+        </a>
+
+    </div>
+
+
+    <!-- Search -->
+    <form method="GET" action="/renters" class="row g-3 mb-4">
+
+        <div class="col-md-6">
+
+            <input
+                type="text"
+                class="form-control"
+                name="search"
+                placeholder="Search by name, phone or address..."
+                value="<%= search || '' %>">
+
+        </div>
+
+        <div class="col-md-3">
+
+            <select
+                name="filter"
+                class="form-select">
+
+                <option value="all"
+                    <%= filter=="all" ? "selected" : "" %>>
+
+                    All
+
+                </option>
+
+                <option value="paid"
+                    <%= filter=="paid" ? "selected" : "" %>>
+
+                    Paid
+
+                </option>
+
+                <option value="pending"
+                    <%= filter=="pending" ? "selected" : "" %>>
+
+                    Pending
+
+                </option>
+
+                <option value="late"
+                    <%= filter=="late" ? "selected" : "" %>>
+
+                    Late
+
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="col-md-3 d-grid">
+
+            <button class="btn btn-success">
+
+                Search
+
+            </button>
+
+        </div>
+
+    </form>
+
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <h5 class="mb-3">
+
+                Total Renters:
+                <span class="badge bg-primary">
+
+                    <%= total %>
+
+                </span>
+
+            </h5>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Name</th>
+
+                        <th>Phone</th>
+
+                        <th>Address</th>
+
+                        <th>Start Date</th>
+
+                        <th>Status</th>
+
+                        <th>Debt</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <% if(renters.length===0){ %>
+
+                    <tr>
+
+                        <td colspan="8" class="text-center">
+
+                            No renters found.
+
+                        </td>
+
+                    </tr>
+
+                    <% } %>
+
+                    <% renters.forEach(r=>{ %>
+
+                    <tr>
+
+                        <td>
+
+                            <%= r.id %>
+
+                        </td>
+
+                        <td>
+
+                            <a href="/renters/<%= r.id %>">
+
+                                <%= r.name %>
+
+                            </a>
+
+                        </td>
+
+                        <td>
+
+                            <%= r.phone || "-" %>
+
+                        </td>
+
+                        <td>
+
+                            <%= r.address || "-" %>
+
+                        </td>
+
+                        <td>
+
+                            <%= r.start_date %>
+
+                        </td>
+
+                        <td>
+
+                            <% if(r.status==="Paid"){ %>
+
+                                <span class="badge bg-success">
+
+                                    Paid
+
+                                </span>
+
+                            <% } %>
+
+                            <% if(r.status==="Pending"){ %>
+
+                                <span class="badge bg-warning text-dark">
+
+                                    Pending
+
+                                </span>
+
+                            <% } %>
+
+                            <% if(r.status==="Late"){ %>
+
+                                <span class="badge bg-danger">
+
+                                    Late
+
+                                </span>
+
+                            <% } %>
+
+                        </td>
+
+                        <td>
+
+                            <strong>
+
+                                <%= r.debt %> CFA
+
+                            </strong>
+
+                        </td>
+
+                        <td class="text-nowrap">
+
+                            <a
+                                href="/renters/<%= r.id %>"
+                                class="btn btn-sm btn-primary">
+
+                                👁 View
+
+                            </a>
+
+                            <a
+                                href="/payments/<%= r.id %>"
+                                class="btn btn-sm btn-success">
+
+                                💰 Pay
+
+                            </a>
+
+                            <a
+                                href="/renters/edit/<%= r.id %>"
+                                class="btn btn-sm btn-warning">
+
+                                ✏ Edit
+
+                            </a>
+
+                            <button
+                                class="btn btn-sm btn-danger"
+                                onclick="confirmDelete(<%= r.id %>, '<%= r.name %>')">
+
+                                🗑 Delete
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <% }) %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="mt-4">
+
+        <a href="/dashboard"
+           class="btn btn-secondary">
+
+            ← Dashboard
+
+        </a>
+
+    </div>
+
+</div>
+<script>
+
+function confirmDelete(id, name){
+
+    if(confirm("Delete " + name + " permanently?")){
+
+        window.location =
+            "/renters/delete/" + id;
+
+    }
+
+}
+
+</script>
+</body>
+
+</html>

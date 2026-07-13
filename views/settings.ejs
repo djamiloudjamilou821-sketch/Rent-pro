@@ -1,0 +1,106 @@
+<%- include("partials/header") %>
+<%- include("partials/sidebar") %>
+
+
+<div class="content">
+
+
+<div class="topbar">
+
+<h2>
+Settings
+</h2>
+
+</div>
+
+
+
+<div class="card p-4">
+
+
+<h4>
+Account Information
+</h4>
+
+
+<hr>
+
+
+<p>
+
+<strong>
+Username:
+</strong>
+
+<%= user %>
+
+</p>
+
+
+
+<a href="/change-password" 
+class="btn btn-warning">
+
+<i class="bi bi-key"></i>
+
+Change Password
+
+</a>
+
+
+
+<a href="/logout"
+class="btn btn-danger">
+
+<i class="bi bi-box-arrow-right"></i>
+
+Logout
+
+</a>
+
+
+</div>
+
+
+
+<br>
+
+
+
+<div class="card p-4">
+
+
+<h4>
+Application Information
+</h4>
+
+
+<hr>
+
+
+<p>
+<b>Application:</b>
+RentApp Pro
+</p>
+
+
+<p>
+<b>Version:</b>
+1.0.0
+</p>
+
+
+<p>
+<b>Weekly Rent:</b>
+1000 CFA
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+<%- include("partials/footer") %>

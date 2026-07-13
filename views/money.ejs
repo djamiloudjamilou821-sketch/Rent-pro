@@ -1,0 +1,74 @@
+<%- include("partials/header") %>
+<%- include("partials/sidebar") %>
+
+<div class="content">
+
+<div class="topbar">
+    <h2>Money Dashboard</h2>
+</div>
+
+<div class="row">
+
+<div class="col-md-3 mb-3">
+<div class="card p-3">
+<h6>Total Collected</h6>
+<h3><%= totalCollected %> CFA</h3>
+</div>
+</div>
+
+<div class="col-md-3 mb-3">
+<div class="card p-3">
+<h6>Weekly Expected</h6>
+<h3><%= weeklyExpected %> CFA</h3>
+</div>
+</div>
+
+<div class="col-md-3 mb-3">
+<div class="card p-3">
+<h6>Total Debt</h6>
+<h3><%= totalDebt %> CFA</h3>
+</div>
+</div>
+
+<div class="col-md-3 mb-3">
+<div class="card p-3">
+<h6>Collection Rate</h6>
+<h3><%= collectionRate %>%</h3>
+</div>
+</div>
+
+</div>
+
+<div class="card p-4">
+
+<h4>Renters Summary</h4>
+
+<table class="table">
+
+<tr>
+<td>Total Renters</td>
+<td><%= totalRenters %></td>
+</tr>
+
+<tr>
+<td>Paid</td>
+<td><%= paid %></td>
+</tr>
+
+<tr>
+<td>Pending</td>
+<td><%= pending %></td>
+</tr>
+
+<tr>
+<td>Late</td>
+<td><%= late %></td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+<%- include("partials/footer") %>

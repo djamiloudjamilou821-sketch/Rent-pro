@@ -1,0 +1,94 @@
+<%- include("partials/header") %>
+<%- include("partials/sidebar") %>
+
+<div class="content">
+
+<div class="topbar">
+
+<h2>Receive Payment</h2>
+
+</div>
+
+<div class="card p-4">
+
+<h3><%= renter.name %></h3>
+
+<p>
+
+Phone:
+
+<strong>
+
+<%= renter.phone || "-" %>
+
+</strong>
+
+</p>
+
+<p>
+
+Current Debt:
+
+<strong>
+
+<%= debt %> CFA
+
+</strong>
+
+</p>
+
+<p>
+
+Status:
+
+<strong>
+
+<%= status %>
+
+</strong>
+
+</p>
+
+<form
+method="POST"
+action="/payments/<%= renter.id %>">
+
+<div class="mb-3">
+
+<label>
+
+Payment Amount
+
+</label>
+
+<input
+type="number"
+name="amount"
+class="form-control"
+value="1000"
+required>
+
+</div>
+
+<button
+class="btn btn-success">
+
+Receive Payment
+
+</button>
+
+<a
+href="/renters/<%= renter.id %>"
+class="btn btn-secondary">
+
+Cancel
+
+</a>
+
+</form>
+
+</div>
+
+</div>
+
+<%- include("partials/footer") %>
