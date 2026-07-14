@@ -1,48 +1,54 @@
-<!DOCTYPE html>
-<html>
+<%- include("partials/header") %>
 
-<head>
+<div class="login-container">
+    <div class="login-card">
+        <h2>RentApp Pro</h2>
 
-    <title>Login</title>
+        <form method="POST" action="/login" class="login-form">
+            <div class="form-group">
+                <input
+                    type="text"
+                    name="username"
+                    class="form-control"
+                    placeholder="Username"
+                    required>
+            </div>
 
-</head>
+            <div class="form-group">
+                <input
+                    type="password"
+                    name="password"
+                    id="passwordInput"
+                    class="form-control"
+                    placeholder="Password"
+                    required>
+                <span class="password-toggle" onclick="togglePasswordVisibility()">
+                    👁
+                </span>
+            </div>
 
-<body>
+            <button type="submit" class="btn btn-primary">
+                Login
+            </button>
 
-<h2>RentApp Pro</h2>
+            <% if (error) { %>
+                <p class="error-message">
+                    <%= error %>
+                </p>
+            <% } %>
+        </form>
+    </div>
+</div>
 
-<form method="POST" action="/login">
+<script>
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById("passwordInput");
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+        } else {
+            passwordInput.type = "password";
+        }
+    }
+</script>
 
-    <input
-        type="text"
-        name="username"
-        placeholder="Username"
-        required>
-
-    <br><br>
-
-    <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        required>
-
-    <br><br>
-
-    <button>
-
-        Login
-
-    </button>
-
-</form>
-
-<p style="color:red">
-
-<%= error %>
-
-</p>
-
-</body>
-
-</html>
+<%- include("partials/footer") %>

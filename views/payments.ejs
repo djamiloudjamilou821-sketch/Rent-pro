@@ -2,7 +2,7 @@
 <%- include("partials/sidebar") %>
 
 
-<div class="content">
+<div class="main">
 
 
 <div class="topbar">
@@ -43,9 +43,6 @@ Total Collected
 Renter
 </th>
 
-<th>
-Phone
-</th>
 
 <th>
 Amount
@@ -85,23 +82,22 @@ No payments yet
 
 <tr>
 
-<td>
-<%= payment.name %>
+
+<td data-label="name">
+    <%= payment.name %>
 </td>
 
 
-<td>
-<%= payment.phone || "-" %>
+<td data-label="Amount">
+    <%= payment.amount %> CFA
 </td>
 
-
 <td>
-<%= payment.amount %> CFA
-</td>
-
-
-<td>
-<%= payment.payment_date %>
+    <%= new Date(payment.payment_date).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    }) %>
 </td>
 
 

@@ -1,146 +1,106 @@
 <%- include("partials/header") %>
-
 <%- include("partials/sidebar") %>
 
-<div class="content">
-
-<div class="topbar">
-
-<h2>Dashboard</h2>
-
-<div>
-
-Welcome,
-
-<strong>
-
-<%= user.username %>
-
-</strong>
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="col-md-3">
-
-<div class="card p-3">
-
-<h6>Total Renters</h6>
-
-<h2>
-
-<%= stats.total %>
-
-</h2>
-
-</div>
-
-</div>
-
-<div class="col-md-3">
-
-<div class="card p-3">
-
-<h6>Paid</h6>
-
-<h2>
-
-<%= stats.paid %>
-
-</h2>
-
-</div>
-
-</div>
-
-<div class="col-md-3">
-
-<div class="card p-3">
-
-<h6>Pending</h6>
-
-<h2>
-
-<%= stats.pending %>
-
-</h2>
-
-</div>
-
-</div>
-
-<div class="col-md-3">
-
-<div class="card p-3">
-
-<h6>Late</h6>
-
-<h2>
-
-<%= stats.late %>
-
-</h2>
-
-</div>
-
-</div>
-
-</div>
-
-<br>
-
-<div class="card p-3">
-
-<table class="table">
-
-<thead>
-
-<tr>
-
-<th>Name</th>
-
-<th>Phone</th>
-
-<th>Status</th>
-
-<th>Debt</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<% renters.forEach(r=>{ %>
-
-<tr>
-
-
-<td>
-    <a href="/renters/<%= r.id %>">
-        <%= r.name %>
-    </a>
-</td>
-
-<td><%= r.phone %></td>
-
-<td><%= r.status %></td>
-
-<td><%= r.debt %> CFA</td>
-
-</tr>
-
-<% }) %>
-
-</tbody>
-
-</table>
-
-</div>
-
+<div class="main">
+    <div class="content">
+
+        <div class="topbar">
+            <h2>Dashboard</h2>
+            <div>
+                Welcome,
+                <strong>
+                    <%= user.username %>
+                </strong>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card p-3 dashboard-card">
+                    <h6>Total Renters</h6>
+                    <h2>
+                        <%= stats.total %>
+                    </h2>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 dashboard-card">
+                    <h6>Paid</h6>
+                    <h2>
+                        <%= stats.paid %>
+                    </h2>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 dashboard-card">
+                    <h6>Pending</h6>
+                    <h2>
+                        <%= stats.pending %>
+                    </h2>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 dashboard-card">
+                    <h6>Late</h6>
+                    <h2>
+                        <%= stats.late %>
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="card p-3">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th>Debt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% renters.forEach(r=> { %>
+                            <tr>
+                                <td>
+                                    <a href="/renters/<%= r.id %>" class="fw-bold text-decoration-none">
+                                        <%= r.name %>
+                                    </a>
+                                </td>
+                                <td>
+                                    <%= r.phone %>
+                                </td>
+                                <td>
+                                    <% if (r.status === "Paid") { %>
+                                        <span class="status-badge status-paid">
+                                            <%= r.status %>
+                                        </span>
+                                        <% } else if (r.status === "Pending") { %>
+                                            <span class="status-badge status-pending">
+                                                <%= r.status %>
+                                            </span>
+                                            <% } else if (r.status === "Late") { %>
+                                                <span class="status-badge status-late">
+                                                    <%= r.status %>
+                                                </span>
+                                                <% } else { %>
+                                                    <%= r.status %>
+                                                        <% } %>
+                                </td>
+                                <td>
+                                    <%= r.debt %> CFA
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
 </div>
 
 <%- include("partials/footer") %>

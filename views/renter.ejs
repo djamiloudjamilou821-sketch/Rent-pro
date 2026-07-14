@@ -1,174 +1,95 @@
 <%- include("partials/header") %>
 <%- include("partials/sidebar") %>
 
-<div class="content">
-
-<div class="topbar">
-
-<h2>Renter Profile</h2>
-
-</div>
-
-<div class="card p-4">
-
-<h3><%= renter.name %></h3>
-
-<hr>
-
-<p>
-
-<strong>Phone:</strong>
-
-<%= renter.phone || "-" %>
-
-</p>
-
-<p>
-
-<strong>Address:</strong>
-
-<%= renter.address || "-" %>
-
-</p>
-
-<p>
-
-<strong>Start Date:</strong>
-
-<%= renter.start_date %>
-
-</p>
-
-<hr>
-
-<h4>Status</h4>
-
-<h5>
-
-<%= status %>
-
-</h5>
-
-<p>
-
-<%= message %>
-
-</p>
-
-<hr>
-
-<h4>Debt</h4>
-
-<h3>
-
-<%= debt %> CFA
-
-</h3>
-
-<hr>
-
-<h4>Total Paid</h4>
-
-<h3>
-
-<%= totalPaid %> CFA
-
-</h3>
-
-</div>
-
-<br>
-
-<div class="card p-4">
-
-<h3>
-
-Payment History
-
-</h3>
-
-<table class="table">
-
-<thead>
-
-<tr>
-
-<th>Date</th>
-
-<th>Amount</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<% if(payments.length===0){ %>
-
-<tr>
-
-<td colspan="2">
-
-No payment yet.
-
-</td>
-
-</tr>
-
-<% } %>
-
-<% payments.forEach(payment=>{ %>
-
-<tr>
-
-<td>
-
-<%= payment.payment_date %>
-
-</td>
-
-<td>
-
-<%= payment.amount %> CFA
-
-</td>
-
-</tr>
-
-<% }) %>
-
-</tbody>
-
-</table>
-
-</div>
-
-<br>
-
-<a
-class="btn btn-success"
-href="/payments/<%= renter.id %>">
-
-Pay Rent
-
-</a>
-
-<a
-class="btn btn-warning"
-href="/renters/edit/<%= renter.id %>">
-
-Edit
-
-</a>
-
-<a
-class="btn btn-danger"
-href="/renters/delete/<%= renter.id %>">
-
-Delete
-
-</a>
-
+<div class="main">
+    <div class="content">
+
+        <div class="renter-profile-header">
+            <h2>Renter Profile</h2>
+            <div class="profile-actions">
+                <a class="btn btn-primary" href="/payments/<%= renter.id %>">
+                    Pay
+                </a>
+                <a class="btn btn-secondary" href="/renters/edit/<%= renter.id %>">
+                    Edit
+                </a>
+                <a class="btn btn-danger" href="/renters/delete/<%= renter.id %>">
+                    Delete
+                </a>
+            </div>
+        </div>
+
+        <div class="card p-4 profile-section">
+            <h3><%= renter.name %></h3>
+            <hr>
+            <p><strong>Phone:</strong> <%= renter.phone || "-" %></p>
+            <p><strong>Address:</strong> <%= renter.address || "-" %></p>
+            <p><strong>Start Date:</strong> <%= renter.start_date %></p>
+        </div>
+
+        <div class="card p-4 profile-section mt-4">
+            <h4>Status</h4>
+            <h5>
+                <% if(status === "Paid") { %>
+                    <span class="status-badge status-paid"><%= status %></span>
+                <% } else if(status === "Pending") { %>
+                    <span class="status-badge status-pending"><%= status %></span>
+                <% } else if(status === "Late") { %>
+                    <span class="status-badge status-late"><%= status %></span>
+                <% } else { %>
+                    <%= status %>
+                <% } %>
+            </h5>
+            <p><%= message %></p>
+        </div>
+
+        <div class="card p-4 profile-section mt-4">
+            <h4>Debt</h4>
+            <h3><%= debt %> CFA</h3>
+        </div>
+
+        <div class="card p-4 profile-section mt-4">
+            <h4>Total Paid</h4>
+            <h3><%= totalPaid %> CFA</h3>
+        </div>
+
+        <div class="card p-4 profile-section mt-4">
+            <h3>Payment History</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if(payments.length === 0){ %>
+                            <tr>
+                                <td colspan="2" class="text-center">
+                                    No payment yet.
+                                </td>
+                            </tr>
+                        <% } %>
+                        <% payments.forEach(payment=>{ %>
+                            <tr>
+                                <td><%= new Date(payment.payment_date).toLocaleDateString("en-GB", {
+                                        day: "numeric",
+                                        month: "short",
+                                        year: "numeric"
+                                    }) %>
+                                </td>
+                                <td><%= payment.amount %> CFA</td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        
+
+    </div>
 </div>
 
 <%- include("partials/footer") %>
