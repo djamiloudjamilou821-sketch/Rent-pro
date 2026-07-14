@@ -1,6 +1,5 @@
 require("dotenv").config();
 
-
 const express = require("express");
 const session = require("express-session");
 
@@ -18,23 +17,32 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
+// Trust Render proxy
+app.set("trust proxy", 1);
+
+// Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 app.use(express.static("public"));
 
+// View Engine
 app.set("view engine", "ejs");
 
-app.use(session({
+// Sessions
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            secure: process.env.NODE_ENV === "production",
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60 * 24 // 24 hours
+        }
+    })
+);
 
-    secret: process.env.SESSION_SECRET,
-
-    resave: false,
-
-    saveUninitialized: false
-
-}));
-
+// Routes
 app.use(authRoutes);
 app.use(dashboardRoutes);
 app.use(renterRoutes);
@@ -43,16 +51,23 @@ app.use(paymentRoutes);
 app.use(moneyRoutes);
 app.use(settingsRoutes);
 
+// Home
 app.get("/", (req, res) => {
-
     res.redirect("/login");
-
 });
 
-initDB();
-
-app.listen(PORT, () => {
-
-    console.log(`✅ Server running on http://localhost:${PORT}`);
-
+// 404
+app.use((req, res) => {
+    res.status(404).send("404 - Page Not Found");
 });
+
+// Start server
+async function startServer() {
+    await initDB();
+
+    app.listen(PORT, () => {
+        console.log(`✅ Server running on port ${PORT}`);
+    });
+}
+
+startServer();
