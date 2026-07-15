@@ -3,91 +3,77 @@
 
 <div class="main">
 
-<div class="topbar">
+    <div class="topbar">
+        <h2>Receive Payment</h2>
+    </div>
 
-<h2>Receive Payment</h2>
+    <div class="card p-4">
 
-</div>
+        <h3><%= renter.name %></h3>
 
-<div class="card p-4">
+        <p>
+            Phone:
+            <strong><%= renter.phone || "-" %></strong>
+        </p>
 
-<h3><%= renter.name %></h3>
+        <p>
+            Current Debt:
+            <strong><%= debt %> CFA</strong>
+        </p>
 
-<p>
+        <p>
+            Status:
+            <strong><%= status %></strong>
+        </p>
 
-Phone:
+        <form
+            method="POST"
+            action="/payments/<%= renter.id %>">
 
-<strong>
+            <div class="mb-3">
 
-<%= renter.phone || "-" %>
+                <label>Payment Amount</label>
 
-</strong>
+                <input
+                    type="number"
+                    name="amount"
+                    class="form-control"
+                    value="<%= debt >= 1000 ? 1000 : debt %>"
+                    min="1"
+                    max="<%= debt %>"
+                    <%= debt === 0 ? "disabled" : "" %>
+                    required>
 
-</p>
+            </div>
 
-<p>
+            <% if (debt > 0) { %>
 
-Current Debt:
+                <button
+                    type="submit"
+                    class="btn btn-success">
+                    Receive Payment
+                </button>
 
-<strong>
+            <% } else { %>
 
-<%= debt %> CFA
+                <button
+                    type="button"
+                    class="btn btn-success"
+                    disabled>
+                    ✔ Paid
+                </button>
 
-</strong>
+            <% } %>
 
-</p>
+            <a
+                href="/renters/<%= renter.id %>"
+                class="btn btn-secondary">
+                Cancel
+            </a>
 
-<p>
+        </form>
 
-Status:
-
-<strong>
-
-<%= status %>
-
-</strong>
-
-</p>
-
-<form
-method="POST"
-action="/payments/<%= renter.id %>">
-
-<div class="mb-3">
-
-<label>
-
-Payment Amount
-
-</label>
-
-<input
-type="number"
-name="amount"
-class="form-control"
-value="1000"
-required>
-
-</div>
-
-<button
-class="btn btn-success">
-
-Receive Payment
-
-</button>
-
-<a
-href="/renters/<%= renter.id %>"
-class="btn btn-secondary">
-
-Cancel
-
-</a>
-
-</form>
-
-</div>
+    </div>
 
 </div>
 

@@ -163,93 +163,38 @@ async function getDebt(renter) {
 // ======================================
 // Status
 // ======================================
+// ======================================
+// Status (Python Logic)
+// ======================================
 async function getStatus(renter) {
 
-    const debt =
-        await getDebt(renter);
+    const debt = await getDebt(renter);
 
-    // Remove time
-    const now = new Date();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-    const today = new Date(
-
-        now.getFullYear(),
-
-        now.getMonth(),
-
-        now.getDate()
-
-    );
-
-    const { weekEnd } =
-        getWeekRange(today);
-
-    let status;
-
-    if (debt === 0) {
-
-        status = "Paid";
-
-    }
-
-    else if (today <= weekEnd) {
-
-        status = "Pending";
-
-    }
-
-    else {
-
-        status = "Late";
-
-    }
+    const { weekEnd } = getWeekRange(today);
 
     let daysLeft = Math.ceil(
-
         (weekEnd.getTime() - today.getTime()) /
-
         (1000 * 60 * 60 * 24)
-
     );
 
     if (daysLeft < 0) {
-
         daysLeft = 0;
-
     }
 
-    let message;
+    // Same logic as Python
+    const status = debt > 0 ? "Late" : "Paid";
 
-    if (status === "Paid") {
-
-        message = "Paid for current week";
-
-    }
-
-    else if (status === "Pending") {
-
-        message = `Due in ${daysLeft} day${daysLeft === 1 ? "" : "s"}`;
-
-    }
-
-    else {
-
-        message = "Payment overdue";
-
-    }
+    const message = `Due in ${daysLeft} day${daysLeft === 1 ? "" : "s"}`;
 
     return {
-
         status,
-
         debt,
-
         message,
-
         daysLeft
-
     };
-
 }
 
 

@@ -5,7 +5,6 @@ const { pool } = require("../config/db");
 const { requireAuth } = require("../middleware/auth");
 const { getStatus } = require("../helpers/billing");
 
-
 // ===============================
 // ALL PAYMENTS HISTORY
 // ===============================
@@ -14,47 +13,31 @@ router.get("/payments", requireAuth, async (req, res) => {
     try {
 
         const paymentsResult = await pool.query(`
-
-            SELECT 
+            SELECT
                 payments.id,
                 payments.amount,
                 payments.payment_date,
                 renters.name,
                 renters.phone
-
             FROM payments
-
             JOIN renters
-
             ON payments.renter_id = renters.id
-
             ORDER BY payments.payment_date DESC
-
         `);
-
 
         const totalResult = await pool.query(`
-
             SELECT COALESCE(SUM(amount),0) AS total
-
             FROM payments
-
         `);
 
-
         res.render("payments", {
-
             payments: paymentsResult.rows,
-
             totalCollected: Number(totalResult.rows[0].total)
-
         });
 
-
-    } catch(err) {
+    } catch (err) {
 
         console.error(err);
-
         res.status(500).send("Unable to load payments");
 
     }
@@ -62,9 +45,8 @@ router.get("/payments", requireAuth, async (req, res) => {
 });
 
 
-
 // ===============================
-// Payment Page
+// PAYMENT PAGE
 // ===============================
 router.get("/payments/:id", requireAuth, async (req, res) => {
 
@@ -77,33 +59,22 @@ router.get("/payments/:id", requireAuth, async (req, res) => {
             [id]
         );
 
-
         if (renterResult.rows.length === 0) {
-
             return res.status(404).send("Renter not found");
-
         }
-
 
         const renter = renterResult.rows[0];
 
-
         const status = await getStatus(renter);
 
-
         res.render("pay", {
-
             renter,
-
             ...status
-
         });
-
 
     } catch (err) {
 
         console.error(err);
-
         res.status(500).send("Server Error");
 
     }
@@ -111,9 +82,8 @@ router.get("/payments/:id", requireAuth, async (req, res) => {
 });
 
 
-
 // ===============================
-// Save Payment
+// SAVE PAYMENT
 // ===============================
 router.post("/payments/:id", requireAuth, async (req, res) => {
 
@@ -121,21 +91,39 @@ router.post("/payments/:id", requireAuth, async (req, res) => {
 
         const id = req.params.id;
 
-        let { amount } = req.body;
+        const renterResult = await pool.query(
+            "SELECT * FROM renters WHERE id=$1",
+            [id]
+        );
 
-
-        amount = Number(amount);
-
-
-        if (!amount || amount <= 0) {
-
-            amount = 1000;
-
+        if (renterResult.rows.length === 0) {
+            return res.status(404).send("Renter not found");
         }
 
+        const renter = renterResult.rows[0];
+
+        // Current debt
+        const status = await getStatus(renter);
+
+        let debt = status.debt;
+
+        // No debt
+        if (debt <= 0) {
+            return res.send("✅ No debt to pay.");
+        }
+
+        let amount = Number(req.body.amount);
+
+        if (!amount || amount <= 0) {
+            amount = 1000;
+        }
+
+        // Never pay more than the debt
+        if (amount > debt) {
+            amount = debt;
+        }
 
         await pool.query(
-
             `
             INSERT INTO payments
             (
@@ -143,7 +131,6 @@ router.post("/payments/:id", requireAuth, async (req, res) => {
                 amount,
                 payment_date
             )
-
             VALUES
             (
                 $1,
@@ -151,27 +138,18 @@ router.post("/payments/:id", requireAuth, async (req, res) => {
                 CURRENT_DATE
             )
             `,
-
-            [
-                id,
-                amount
-            ]
-
+            [id, amount]
         );
-
 
         res.redirect("/renters/" + id);
 
-
-    } catch(err) {
+    } catch (err) {
 
         console.error(err);
-
         res.status(500).send("Unable to save payment.");
 
     }
 
 });
-
 
 module.exports = router;

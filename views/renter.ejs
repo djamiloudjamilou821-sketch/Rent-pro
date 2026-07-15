@@ -13,7 +13,11 @@
                 <a class="btn btn-secondary" href="/renters/edit/<%= renter.id %>">
                     Edit
                 </a>
-                <a class="btn btn-danger" href="/renters/delete/<%= renter.id %>">
+                
+                <a
+                    href="/renters/delete/<%= renter.id %>"
+                    class="btn btn-danger"
+                    onclick="return confirm('Are you sure you want to delete <%= renter.name %>? This will also delete all payment history.')">
                     Delete
                 </a>
             </div>
