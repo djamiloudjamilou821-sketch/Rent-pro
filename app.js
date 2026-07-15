@@ -15,6 +15,9 @@ const moneyRoutes = require("./routes/money");
 const settingsRoutes = require("./routes/settings");
 
 const app = express();
+app.get("/", (req, res) => {
+    res.send("ROOT ROUTE WORKS");
+});
 
 const PORT = process.env.PORT || 3000;
 
@@ -46,6 +49,11 @@ app.use(
         }
     })
 );
+// Home
+app.get("/", (req, res) => {
+    res.redirect("/login");
+});
+
 // Routes
 app.use(authRoutes);
 app.use(dashboardRoutes);
@@ -55,16 +63,7 @@ app.use(paymentRoutes);
 app.use(moneyRoutes);
 app.use(settingsRoutes);
 
-// Home
-app.get("/", (req, res) => {
 
-    if (req.session.user) {
-        return res.redirect("/dashboard");
-    }
-
-    res.redirect("/login");
-
-});
 
 // 404
 app.use((req, res) => {

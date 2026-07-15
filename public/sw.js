@@ -1,7 +1,7 @@
 const CACHE_NAME = "rentapp-v1";
 
 const filesToCache = [
-    "/",
+    "/login",
     "/css/style.css",
     "/manifest.json",
     "/pwa.js"
