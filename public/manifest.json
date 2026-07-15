@@ -2,7 +2,7 @@
     "name": "RentApp Pro",
     "short_name": "RentApp",
     "description": "Weekly Rental Management System",
-    "start_url": "/login",
+    "start_url": "/dashboard",
     "scope": "/",
     "display": "standalone",
     "orientation": "portrait",
