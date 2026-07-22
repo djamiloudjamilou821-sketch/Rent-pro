@@ -15,9 +15,7 @@ const moneyRoutes = require("./routes/money");
 const settingsRoutes = require("./routes/settings");
 
 const app = express();
-app.get("/", (req, res) => {
-    res.send("ROOT ROUTE WORKS");
-});
+
 
 const PORT = process.env.PORT || 3000;
 
@@ -71,19 +69,14 @@ app.use((req, res) => {
 });
 
 // Start server
-async function startServer() {
-    try {
-        await initDB();
-
-        app.listen(PORT, "0.0.0.0", () => {
-            console.log(`✅ Server running on port ${PORT}`);
-        });
-
-    } catch (err) {
-        console.error("❌ Failed to start server");
+// Initialize the database
+initDB()
+    .then(() => {
+        console.log("✅ Database initialized");
+    })
+    .catch((err) => {
+        console.error("❌ Database initialization failed");
         console.error(err);
-        process.exit(1);
-    }
-}
+    });
 
-startServer();
+module.exports = app;
